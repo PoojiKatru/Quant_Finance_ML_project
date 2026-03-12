@@ -9,10 +9,6 @@ from dataclasses import dataclass, field
 from typing import List, Optional
 
 
-# ─────────────────────────────────────────────
-# Performance Metrics
-# ─────────────────────────────────────────────
-
 def sharpe_ratio(returns: pd.Series, risk_free: float = 0.04) -> float:
     excess = returns - risk_free / 252
     if excess.std() == 0:
@@ -56,9 +52,6 @@ def profit_factor(returns: pd.Series) -> float:
     return gross_profit / gross_loss if gross_loss != 0 else np.inf
 
 
-# ─────────────────────────────────────────────
-# Trade Record
-# ─────────────────────────────────────────────
 
 @dataclass
 class Trade:
@@ -72,9 +65,6 @@ class Trade:
     commission: float = 0.0
 
 
-# ─────────────────────────────────────────────
-# Backtester
-# ─────────────────────────────────────────────
 
 class Backtester:
     """
