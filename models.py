@@ -11,9 +11,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, roc_auc_score, classification_report
 
 
-# ─────────────────────────────────────────────
-# Base Model Wrapper
-# ─────────────────────────────────────────────
 
 class BaseModel:
     def __init__(self, name: str):
@@ -41,9 +38,6 @@ class BaseModel:
         }
 
 
-# ─────────────────────────────────────────────
-# XGBoost Model
-# ─────────────────────────────────────────────
 
 class XGBoostModel(BaseModel):
     def __init__(self, n_estimators: int = 300, max_depth: int = 4,
@@ -92,9 +86,7 @@ class XGBoostModel(BaseModel):
         return pd.Series()
 
 
-# ─────────────────────────────────────────────
-# Random Forest Model
-# ─────────────────────────────────────────────
+
 
 class RandomForestModel(BaseModel):
     def __init__(self, n_estimators: int = 500, max_depth: int = 8,
@@ -126,9 +118,7 @@ class RandomForestModel(BaseModel):
         ).sort_values(ascending=False)
 
 
-# ─────────────────────────────────────────────
-# LSTM Model
-# ─────────────────────────────────────────────
+
 
 class LSTMModel(BaseModel):
     def __init__(self, lookback: int = 20, hidden_size: int = 64,
@@ -237,9 +227,7 @@ class LSTMModel(BaseModel):
         return np.concatenate([pad, proba])
 
 
-# ─────────────────────────────────────────────
-# Ensemble Model
-# ─────────────────────────────────────────────
+
 
 class EnsembleModel(BaseModel):
     """
@@ -289,9 +277,7 @@ class EnsembleModel(BaseModel):
         return self.meta_learner.predict_proba(meta_X)[:, 1]
 
 
-# ─────────────────────────────────────────────
-# Factory
-# ─────────────────────────────────────────────
+
 
 def get_model(model_type: str) -> BaseModel:
     models = {
