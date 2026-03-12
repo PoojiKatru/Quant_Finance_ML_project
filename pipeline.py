@@ -24,11 +24,10 @@ def run_pipeline(
     print(f"  Period: {start} → {end}")
     print(f"{'='*60}")
 
-    # ── 1. Data ──────────────────────────────────────────────
+ 
     print("\n[1/5] Fetching market data...")
     df = fetch_ohlcv(ticker, start, end)
 
-    # ── 2. Feature Engineering ───────────────────────────────
     print("[2/5] Engineering features...")
     features_df = build_features(df)
 
@@ -49,7 +48,7 @@ def run_pipeline(
 
     print(f"   Train: {train_end} | Val: {val_end - train_end} | Test: {n - val_end} samples")
 
-    # ── 3. Model Training ────────────────────────────────────
+   
     print(f"[3/5] Training {model_type} model...")
     model = get_model(model_type)
 
@@ -58,13 +57,13 @@ def run_pipeline(
     else:
         model.fit(np.vstack([X_train, X_val]), np.concatenate([y_train, y_val]))
 
-    # ── 4. Evaluation ─────────────────────────────────────────
+
     print("[4/5] Evaluating model...")
     metrics = model.evaluate(X_test, y_test)
     print(f"   Test Accuracy : {metrics['accuracy']:.4f}")
     print(f"   Test ROC-AUC  : {metrics['roc_auc']:.4f}")
 
-    # ── 5. Backtest ───────────────────────────────────────────
+  
     print("[5/5] Running backtest...")
 
     # Generate probability signals over test period
@@ -84,7 +83,7 @@ def run_pipeline(
     results = bt.run(test_prices, signals, benchmark=test_prices)
     bt.print_summary(results)
 
-    # ── Feature Importance ────────────────────────────────────
+
     if hasattr(model, "feature_importance"):
         fi = model.feature_importance(feature_cols)
         if len(fi) > 0:
@@ -93,7 +92,7 @@ def run_pipeline(
                 bar = "█" * int(imp * 200)
                 print(f"  {feat:<30} {bar} {imp:.4f}")
 
-    # ── Optional Plot ─────────────────────────────────────────
+
     if plot:
         _plot_results(results, ticker, model_type)
 
