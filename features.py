@@ -7,9 +7,6 @@ import numpy as np
 import pandas as pd
 
 
-# ─────────────────────────────────────────────
-# Momentum Indicators
-# ─────────────────────────────────────────────
 
 def rsi(series: pd.Series, window: int = 14) -> pd.Series:
     delta = series.diff()
@@ -32,9 +29,7 @@ def rate_of_change(series: pd.Series, window: int = 10) -> pd.Series:
     return series.pct_change(window)
 
 
-# ─────────────────────────────────────────────
-# Volatility Indicators
-# ─────────────────────────────────────────────
+
 
 def bollinger_bands(series: pd.Series, window: int = 20, num_std: float = 2.0):
     sma = series.rolling(window).mean()
@@ -59,9 +54,7 @@ def realized_volatility(returns: pd.Series, window: int = 21) -> pd.Series:
     return returns.rolling(window).std() * np.sqrt(252)
 
 
-# ─────────────────────────────────────────────
-# Volume Indicators
-# ─────────────────────────────────────────────
+
 
 def obv(close: pd.Series, volume: pd.Series) -> pd.Series:
     direction = np.sign(close.diff())
@@ -77,9 +70,7 @@ def volume_ratio(volume: pd.Series, window: int = 20) -> pd.Series:
     return volume / volume.rolling(window).mean()
 
 
-# ─────────────────────────────────────────────
-# Trend Indicators
-# ─────────────────────────────────────────────
+
 
 def adx(high: pd.Series, low: pd.Series, close: pd.Series, window: int = 14) -> pd.Series:
     up_move = high.diff()
@@ -93,9 +84,7 @@ def adx(high: pd.Series, low: pd.Series, close: pd.Series, window: int = 14) -> 
     return dx.ewm(span=window, adjust=False).mean()
 
 
-# ─────────────────────────────────────────────
-# Main Feature Builder
-# ─────────────────────────────────────────────
+
 
 def build_features(df: pd.DataFrame) -> pd.DataFrame:
     """
