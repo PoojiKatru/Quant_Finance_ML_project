@@ -8,7 +8,7 @@ import numpy as np
 from pathlib import Path
 
 
-CACHE_DIR = Path(__file__).parent / "data" / "cache"
+CACHE_DIR = Path("/tmp/quant_cache")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 
